@@ -7,22 +7,30 @@ import {
   Platform,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import styles from "../../assets/styles/signup.styles";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "@/constants/colors";
 import { Link } from "expo-router";
+import { useAuthStore } from "../../store/authStore";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, user, register, token } = useAuthStore();
 
-  const handleSignup = () => {};
+  const handleSignup = async () => {
+    const result = await register(username, email, password);
+    if (!result.success) Alert.alert("Error", result.error);
+  };
 
+  console.log(user);
+  console.log(token);
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
